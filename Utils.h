@@ -1,15 +1,16 @@
 #pragma once
-#include <mutex>
-#include "File.h"
+
+#include <ctime>
+#include <memory>
 
 using namespace std;
 
+template<class>
+class Buffer;
+
 class Utils
 {
-	static mutex mUtilsMutex;
-	static const unsigned int mCurrentSizeBuffer = 0;
-	static const unsigned int mSizeBuffer = 1024;
-	//static const char* mBuffer = (char*) malloc(1024);
+	static shared_ptr<Buffer<char>> mBuffer;
 
 public:
 	Utils() = delete;

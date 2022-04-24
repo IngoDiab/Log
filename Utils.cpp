@@ -1,8 +1,13 @@
 #include <iostream>
 #include <string>
+
 #include "Utils.h"
+#include "Buffer.h"
+#include "File.h"
 
 using namespace std;
+
+shared_ptr<Buffer<char>> Utils::mBuffer(new Buffer<char>(1024));
 
 void Utils::LogText(const char* _text, const char* _formatDate, const char* _formatTime)
 {
@@ -21,11 +26,15 @@ void Utils::LogText(const char* _text, const char* _formatDate, const char* _for
 	GetCurrentTime(_timeStruct, _bufferTime, _sizeOutBufferTime, _formatTime);
 
 	//Display
-	cout << _bufferDate << '|' << _bufferTime << " ==> " << _text << endl;
+	//cout << _bufferDate << '|' << _bufferTime << " ==> " << _text << endl;
+
+	const unsigned int _resultSize = _sizeOutBufferDate + _sizeOutBufferTime + 6;
+	char* _resultLog = (char*)malloc(_resultSize);
 
 	//Free buffers
 	free(_bufferDate);
 	free(_bufferTime);
+	free(_resultLog);
 }
 
 void Utils::GetCurrentDate(char* _bufferOut, const unsigned int _sizeBuffer, const char* _formatDate)
@@ -56,6 +65,7 @@ bool Utils::WriteInFile(const char* _path, const char* _content, const bool& _re
 	if (!File::OpenFile(_file, _path, _replaceCurrentContent)) return false;
 	File::WriteInFile(_file, _content);
 	File::CloseFile(_file);
+	return true;
 }
 
 tm Utils::GetTimeStruct()
