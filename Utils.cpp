@@ -17,8 +17,8 @@ void Utils::LogText(const char* _text, const char* _formatDate, const char* _for
 	char* _bufferTime = (char*) malloc(_sizeOutBufferTime);
 
 	//Fill buffers
-	GetCurrentDate(_timeStruct, _bufferDate, _sizeOutBufferDate);
-	GetCurrentTime(_timeStruct, _bufferTime, _sizeOutBufferTime);
+	GetCurrentDate(_timeStruct, _bufferDate, _sizeOutBufferDate, _formatDate);
+	GetCurrentTime(_timeStruct, _bufferTime, _sizeOutBufferTime, _formatTime);
 
 	//Display
 	cout << _bufferDate << '|' << _bufferTime << " ==> " << _text << endl;
@@ -48,6 +48,14 @@ void Utils::GetCurrentTime(char* _bufferOut, const unsigned int _sizeBuffer, con
 void Utils::GetCurrentTime(const tm& _timeStruct, char* _bufferOut, const unsigned int _sizeBuffer, const char* _formatTime)
 {
 	sprintf_s(_bufferOut, _sizeBuffer, _formatTime, _timeStruct.tm_hour, _timeStruct.tm_min, _timeStruct.tm_sec);
+}
+
+bool Utils::WriteInFile(const char* _path, const char* _content, const bool& _replaceCurrentContent)
+{
+	ofstream _file;
+	if (!File::OpenFile(_file, _path, _replaceCurrentContent)) return false;
+	File::WriteInFile(_file, _content);
+	File::CloseFile(_file);
 }
 
 tm Utils::GetTimeStruct()
