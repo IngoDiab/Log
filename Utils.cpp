@@ -7,7 +7,7 @@
 
 using namespace std;
 
-shared_ptr<Buffer<char>> Utils::mBuffer(new Buffer<char>(1024));
+shared_ptr<Buffer<char>> Utils::mBuffer(new Buffer<char>(SIZE_BUFFER));
 
 void Utils::LogText(const char* _text, const char* _formatDate, const char* _formatTime)
 {
@@ -23,21 +23,21 @@ void Utils::LogText(const char* _text, const char* _formatDate, const char* _for
 	//Fill buffers
 	GetCurrentDate(_timeStruct, _bufferDate, _sizeOutBufferDate, _formatDate);
 	GetCurrentTime(_timeStruct, _bufferTime, _sizeOutBufferTime, _formatTime);
-
-	//Display
-	//cout << _bufferDate << '|' << _bufferTime << " ==> " << _text << endl;
+	//Buffers have string content + end string char
 
 	//Fill result
-	const unsigned int _resultSize = strlen(_bufferDate) + strlen(_bufferTime) + (strlen(_text)+1) + 8; //8 format
-	char* _resultLog = (char*) malloc(_resultSize);
-	sprintf_s(_resultLog, _resultSize, "%s | %s ==> %s", _bufferDate, _bufferTime, _text);
-	mBuffer->WriteInBuffer(_resultLog);
-	mBuffer->DisplayBufferContent();
+	const unsigned int _resultSize = strlen(_bufferDate) + strlen(_bufferTime) + strlen(_text) + 10; //nb char buffer Date + nb char buffer Time + nb char buffer _text + (10 = 9 format + 1 end char)
+	char* _resultBuffer = (char*) malloc(_resultSize);
+	sprintf_s(_resultBuffer, _resultSize, "%s | %s ==> %s\n", _bufferDate, _bufferTime, _text);
+	//Result buffer has string content + \n + end string char (but there's no more end char after date/time)
+
+	//Write _resultBuffer in general buffer
+	mBuffer->WriteInBuffer(_resultBuffer);
 
 	//Free buffers
 	free(_bufferDate);
 	free(_bufferTime);
-	free(_resultLog);
+	free(_resultBuffer);
 }
 
 void Utils::GetCurrentDate(char* _bufferOut, const unsigned int _sizeBuffer, const char* _formatDate)
@@ -62,13 +62,10 @@ void Utils::GetCurrentTime(const tm& _timeStruct, char* _bufferOut, const unsign
 	sprintf_s(_bufferOut, _sizeBuffer, _formatTime, _timeStruct.tm_hour, _timeStruct.tm_min, _timeStruct.tm_sec);
 }
 
-bool Utils::WriteInFile(const char* _path, const char* _content, const bool& _replaceCurrentContent)
+void Utils::DisplayBuffer()
 {
-	ofstream _file;
-	if (!File::OpenFile(_file, _path, _replaceCurrentContent)) return false;
-	File::WriteInFile(_file, _content);
-	File::CloseFile(_file);
-	return true;
+	if (!mBuffer)return;
+	mBuffer->DisplayBufferContent();
 }
 
 tm Utils::GetTimeStruct()

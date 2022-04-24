@@ -5,6 +5,8 @@
 
 using namespace std;
 
+#define SIZE_BUFFER 1024
+
 template<class>
 class Buffer;
 
@@ -24,7 +26,8 @@ public:
 	static void GetCurrentTime(char* _bufferOut, const unsigned int _sizeBuffer, const char* _formatTime = "%i:%i:%i");
 	static void GetCurrentTime(const tm& _timeStruct, char* _bufferOut, const unsigned int _sizeBuffer, const char* _formatTime = "%i:%i:%i");
 
-	static bool WriteInFile(const char* _path, const char* _content, const bool& _replaceCurrentContent = false);
+	static void DisplayBuffer();
+
 private:
 	static tm GetTimeStruct();
 };

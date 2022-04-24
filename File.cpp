@@ -6,10 +6,22 @@ bool File::OpenFile(ofstream& _outputFile, const char* _path, const bool& _repla
 	return _outputFile.is_open();
 }
 
-void File::WriteInFile(ofstream& _outputFile, const char* _content)
+void File::WriteInFile(const char* _path, const char* _content, const bool& _replaceCurrentContent)
 {
-	if (!_outputFile.is_open()) return;
-	_outputFile << _content << endl;
+	ofstream _file;
+	if (!File::OpenFile(_file, _path, _replaceCurrentContent)) return;
+
+	//Allocate a buffer and copy _content to delete last '\n' from _content before pasting it in a file (avoid inserting a new line to the file after emptying buffer in it)
+	const unsigned int _sizeCopy = (strlen(_content)) * sizeof(char);
+	char* _contentToPasteInFile = (char*)malloc(_sizeCopy);
+	strncpy_s(_contentToPasteInFile, _sizeCopy, _content, strlen(_content) - 1);
+
+	//Paste content in file
+	_file << _contentToPasteInFile << endl;
+
+	//Free copy char* & close file
+	free(_contentToPasteInFile);
+	File::CloseFile(_file);
 }
 
 void File::CloseFile(ofstream& _outputFile)
