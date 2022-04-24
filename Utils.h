@@ -24,8 +24,8 @@ public:
 	static void GetCurrentTime(char* _bufferOut, const unsigned int _sizeBuffer, const char* _formatTime = "%i:%i:%i");
 	static void GetCurrentTime(const tm& _timeStruct, char* _bufferOut, const unsigned int _sizeBuffer, const char* _formatTime = "%i:%i:%i");
 
-private:
 	static bool WriteInFile(const char* _path, const char* _content, const bool& _replaceCurrentContent = false);
+private:
 	static tm GetTimeStruct();
 };
 

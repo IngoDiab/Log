@@ -11,11 +11,10 @@ shared_ptr<Buffer<char>> Utils::mBuffer(new Buffer<char>(1024));
 
 void Utils::LogText(const char* _text, const char* _formatDate, const char* _formatTime)
 {
-	//lock_guard<mutex> lock(mUtilsMutex);
 	//Get time struct
 	tm _timeStruct = GetTimeStruct();
-	const unsigned int _sizeOutBufferDate = 10;
-	const unsigned int _sizeOutBufferTime = 10;
+	const unsigned int _sizeOutBufferDate = 10; //10 format
+	const unsigned int _sizeOutBufferTime = 10; //10 format
 
 	//Allocate space needed in heap
 	char* _bufferDate = (char*) malloc(_sizeOutBufferDate);
@@ -28,8 +27,12 @@ void Utils::LogText(const char* _text, const char* _formatDate, const char* _for
 	//Display
 	//cout << _bufferDate << '|' << _bufferTime << " ==> " << _text << endl;
 
-	const unsigned int _resultSize = _sizeOutBufferDate + _sizeOutBufferTime + 6;
-	char* _resultLog = (char*)malloc(_resultSize);
+	//Fill result
+	const unsigned int _resultSize = strlen(_bufferDate) + strlen(_bufferTime) + (strlen(_text)+1) + 8; //8 format
+	char* _resultLog = (char*) malloc(_resultSize);
+	sprintf_s(_resultLog, _resultSize, "%s | %s ==> %s", _bufferDate, _bufferTime, _text);
+	mBuffer->WriteInBuffer(_resultLog);
+	mBuffer->DisplayBufferContent();
 
 	//Free buffers
 	free(_bufferDate);
