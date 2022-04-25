@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <thread>
 
 #include "Utils.h"
 #include "Buffer.h"
@@ -30,6 +31,9 @@ void Utils::LogText(const char* _text, const char* _formatDate, const char* _for
 	char* _resultBuffer = (char*) malloc(_resultSize);
 	sprintf_s(_resultBuffer, _resultSize, "%s | %s ==> %s\n", _bufferDate, _bufferTime, _text);
 	//Result buffer has string content + \n + end string char (but there's no more end char after date/time)
+
+	//Display log
+	cout << _resultBuffer;
 
 	//Write _resultBuffer in general buffer
 	mBuffer->WriteInBuffer(_resultBuffer);
@@ -62,10 +66,16 @@ void Utils::GetCurrentTime(const tm& _timeStruct, char* _bufferOut, const unsign
 	sprintf_s(_bufferOut, _sizeBuffer, _formatTime, _timeStruct.tm_hour, _timeStruct.tm_min, _timeStruct.tm_sec);
 }
 
-void Utils::DisplayBuffer()
+void Utils::WaitForXMilliseconds(int ms)
 {
-	if (!mBuffer)return;
-	mBuffer->DisplayBufferContent();
+	this_thread::sleep_for(chrono::milliseconds(ms));
+}
+
+void Utils::WaitForXMillisecondsMaximum(int ms)
+{
+	// simulation d'une opération 'lente' (attente de 0 à ms millisecondes)
+	int wait = rand() % ms;
+	WaitForXMilliseconds(wait);
 }
 
 tm Utils::GetTimeStruct()

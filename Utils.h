@@ -26,7 +26,8 @@ public:
 	static void GetCurrentTime(char* _bufferOut, const unsigned int _sizeBuffer, const char* _formatTime = "%i:%i:%i");
 	static void GetCurrentTime(const tm& _timeStruct, char* _bufferOut, const unsigned int _sizeBuffer, const char* _formatTime = "%i:%i:%i");
 
-	static void DisplayBuffer();
+	static void WaitForXMilliseconds(int ms);
+	static void WaitForXMillisecondsMaximum(int ms);
 
 private:
 	static tm GetTimeStruct();
