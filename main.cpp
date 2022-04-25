@@ -23,14 +23,14 @@ int main()
 void LogSingleThreading()
 {
     cout << "========================================================================" << endl;
-    cout << "                              Log Singlethreading                        " << endl;
+    cout << "                              Log Singlethreading                       " << endl;
     cout << "========================================================================" << endl;
 
     for (int i = 0; i < NB_THREADS; ++i)
         Utils::LogText("This is a log from single thread", FORMAT_DATE, FORMAT_TIME);
 
     cout << "========================================================================" << endl;
-    cout << "                            End Log Singlethreading                      " << endl;
+    cout << "                            End Log Singlethreading                     " << endl;
     cout << "========================================================================" << endl;
 }
 

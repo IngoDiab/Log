@@ -4,7 +4,7 @@
 #include "Utils.h"
 #include "File.h"
 
-#define PATH_SAVELOG "SavedOutputLogs.txt"
+#define PATH_SAVELOG "Saved/Logs/Logs_Saved.txt"
 
 template <class BufferedType>
 class Buffer
@@ -87,8 +87,12 @@ inline void Buffer<BufferedType>::GetCurrentSizeFill() const
 template<class BufferedType>
 inline void Buffer<BufferedType>::WriteInBuffer(const char* _content)
 {
-	Utils::WaitForXMillisecondsMaximum(1000);
+	//Utils::WaitForXMillisecondsMaximum(1000);
 	lock_guard<mutex> lock(m);
+
+	//Display log
+	cout << _content;
+
 	//If the content exceed buffer's capacity, we empty it in a file
 	if (IsAboutToBeFull(_content)) EmptyBufferInFile(PATH_SAVELOG);
 

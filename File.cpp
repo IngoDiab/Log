@@ -1,4 +1,5 @@
 #include "File.h"
+#include <direct.h>
 
 bool File::OpenFile(ofstream& _outputFile, const char* _path, const bool& _replaceCurrentContent)
 {
@@ -8,6 +9,12 @@ bool File::OpenFile(ofstream& _outputFile, const char* _path, const bool& _repla
 
 void File::WriteInFile(const char* _path, const char* _content, const bool& _replaceCurrentContent)
 {
+	/*const unsigned int _sizeTemp = (strlen(_content) + 1) * sizeof(char);
+	char* _temp = (char*)malloc(_sizeTemp);
+	strncpy_s(_temp, _sizeTemp, _content, strlen(_content));
+	char* _tempPoint = strtok_s(_temp, "/");
+	cout << _tempPoint << endl;*/
+
 	ofstream _file;
 	if (!File::OpenFile(_file, _path, _replaceCurrentContent)) return;
 
