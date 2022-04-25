@@ -27,7 +27,7 @@ void LogSingleThreading()
     cout << "========================================================================" << endl;
 
     for (int i = 0; i < NB_THREADS; ++i)
-        Utils::LogText("This is a log from single thread", FORMAT_DATE, FORMAT_TIME);
+        Utils::LogText(i, "This is a log from single thread", FORMAT_DATE, FORMAT_TIME);
 
     cout << "========================================================================" << endl;
     cout << "                            End Log Singlethreading                     " << endl;
@@ -43,7 +43,7 @@ void LogMultiThreading()
     vector<thread> _threads;
 
     for (int i = 0; i < NB_THREADS; ++i)
-        _threads.push_back(thread(&Utils::LogText, "This is a log from multi thread", FORMAT_DATE, FORMAT_TIME));
+        _threads.push_back(thread(&Utils::LogText,i, "This is a log from multi thread", FORMAT_DATE, FORMAT_TIME));
 
     for (int i = 0; i < _threads.size(); ++i)
         _threads.at(i).join();

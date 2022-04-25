@@ -9,7 +9,7 @@
 template <class BufferedType>
 class Buffer
 {
-	mutex m;
+	//mutex m;
 	BufferedType* mBuffer = nullptr;
 	unsigned int mMaxSizeBuffer = 1024;
 	unsigned int mCurrentSizeBuffer = 0;
@@ -88,10 +88,7 @@ template<class BufferedType>
 inline void Buffer<BufferedType>::WriteInBuffer(const char* _content)
 {
 	//Utils::WaitForXMillisecondsMaximum(1000);
-	lock_guard<mutex> lock(m);
-
-	//Display log
-	cout << _content;
+	//lock_guard<mutex> lock(m);
 
 	//If the content exceed buffer's capacity, we empty it in a file
 	if (IsAboutToBeFull(_content)) EmptyBufferInFile(PATH_SAVELOG);

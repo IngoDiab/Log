@@ -9,9 +9,12 @@
 using namespace std;
 
 shared_ptr<Buffer<char>> Utils::mBuffer(new Buffer<char>(SIZE_BUFFER));
+mutex Utils::mMutex;
 
-void Utils::LogText(const char* _text, const char* _formatDate, const char* _formatTime)
+void Utils::LogText(const unsigned int& _indexThread, const char* _text, const char* _formatDate, const char* _formatTime)
 {
+	lock_guard<mutex> lock(mMutex);
+
 	//Get time struct
 	tm _timeStruct = GetTimeStruct();
 	const unsigned int _sizeOutBufferDate = 10; //10 format
@@ -27,9 +30,9 @@ void Utils::LogText(const char* _text, const char* _formatDate, const char* _for
 	//Buffers have string content + end string char
 
 	//Fill result
-	const unsigned int _resultSize = strlen(_bufferDate) + strlen(_bufferTime) + strlen(_text) + 10; //nb char buffer Date + nb char buffer Time + nb char buffer _text + (10 = 9 format + 1 end char)
+	const unsigned int _resultSize = strlen(_bufferDate) + strlen(_bufferTime) + strlen(_text) + 17; //nb char buffer Date + nb char buffer Time + nb char buffer _text + (10 = 9 format + 1 end char)
 	char* _resultBuffer = (char*) malloc(_resultSize);
-	sprintf_s(_resultBuffer, _resultSize, "%s | %s ==> %s\n", _bufferDate, _bufferTime, _text);
+	sprintf_s(_resultBuffer, _resultSize, "%s | %s ==> %s _%i\n", _bufferDate, _bufferTime, _text, _indexThread);
 	//Result buffer has string content + \n + end string char (but there's no more end char after date/time)
 
 	//Display log
