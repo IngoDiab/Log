@@ -35,7 +35,7 @@ void Utils::LogText(const unsigned int& _indexThread, const char* _text, const c
 	sprintf_s(_resultBuffer, _resultSize, _formatResult, _bufferDate, _bufferTime, _text, _indexThread);
 	//Result buffer has string content + \n + end string char (but there's no more end char after date/time)
 
-	//WaitForXMilliseconds(100);
+	WaitForXMilliseconds(1000);
 
 	//Display log
 	cout << _resultBuffer;

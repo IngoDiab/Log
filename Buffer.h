@@ -86,7 +86,6 @@ inline void Buffer<BufferedType>::GetCurrentSizeFill() const
 template<class BufferedType>
 inline void Buffer<BufferedType>::WriteInBuffer(const char* _content)
 {
-	//Utils::WaitForXMillisecondsMaximum(1000);
 
 	//If the content exceed buffer's capacity, we empty it in a file
 	if (IsAboutToBeFull(_content)) EmptyBufferInFile(PATH_SAVELOG);
@@ -94,10 +93,11 @@ inline void Buffer<BufferedType>::WriteInBuffer(const char* _content)
 	//Check if buffer can receive content
 	if (ExceedBuffer(_content)) 
 	{
+		Utils::WaitForXMilliseconds(2000);
 		File::WriteInFile(PATH_SAVELOG, _content);
 		return;
 	}
-
+	Utils::WaitForXMilliseconds(1000);
 	//Copy _content at the end of buffer (if the buffer is already fill, the first char of _content override the end char of the buffer and set it at the end after _content has been added)
 	mCurrentSizeBuffer += sprintf_s(mBuffer + mCurrentSizeBuffer, mMaxSizeBuffer * sizeof(BufferedType) - mCurrentSizeBuffer, "%s", _content);
 }

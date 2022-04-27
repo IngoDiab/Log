@@ -9,7 +9,7 @@
 #define FORMAT_DATE "%i/%i/%i"
 #define FORMAT_TIME "%i:%i:%i"
 #define FORMAT_RESULT "[%s-%s] Log : \"%s %i\"\n"
-#define NB_THREADS 6000
+#define NB_THREADS 1605//6000   | Home Max 1604 threads w/ sleep for 1s before cout, sleep for 2s before paste in file, sleep for 1s before paste in buffer
 
 using namespace std;
 
