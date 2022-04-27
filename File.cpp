@@ -19,15 +19,14 @@ void File::WriteInFile(const char* _path, const char* _content, const bool& _rep
 	if (!File::OpenFile(_file, _path, _replaceCurrentContent)) return;
 
 	//Allocate a buffer and copy _content to delete last '\n' from _content before pasting it in a file (avoid inserting a new line to the file after emptying buffer in it)
-	const unsigned int _sizeCopy = (strlen(_content)) * sizeof(char);
-	char* _contentToPasteInFile = (char*)malloc(_sizeCopy);
-	strncpy_s(_contentToPasteInFile, _sizeCopy, _content, strlen(_content) - 1);
+	//const unsigned int _sizeCopy = (strlen(_content)) * sizeof(char);
+	//char* _contentToPasteInFile = (char*)malloc(_sizeCopy);
+	//strncpy_s(_contentToPasteInFile, _sizeCopy, _content, strlen(_content) - 1);
 
 	//Paste content in file
-	_file << _contentToPasteInFile << endl;
+	_file << _content;
 
-	//Free copy char* & close file
-	free(_contentToPasteInFile);
+	//Free close file
 	File::CloseFile(_file);
 }
 

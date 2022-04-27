@@ -7,7 +7,7 @@
 
 #define FORMAT_DATE "%i/%i/%i"
 #define FORMAT_TIME "%i:%i:%i"
-#define NB_THREADS 2000
+#define NB_THREADS 10000
 
 using namespace std;
 

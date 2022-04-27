@@ -4,12 +4,11 @@
 #include "Utils.h"
 #include "File.h"
 
-#define PATH_SAVELOG "Saved/Logs/Logs_Saved.txt"
+#define PATH_SAVELOG "Logs_Saved.txt"
 
 template <class BufferedType>
 class Buffer
 {
-	//mutex m;
 	BufferedType* mBuffer = nullptr;
 	unsigned int mMaxSizeBuffer = 1024;
 	unsigned int mCurrentSizeBuffer = 0;
@@ -87,8 +86,7 @@ inline void Buffer<BufferedType>::GetCurrentSizeFill() const
 template<class BufferedType>
 inline void Buffer<BufferedType>::WriteInBuffer(const char* _content)
 {
-	//Utils::WaitForXMillisecondsMaximum(1000);
-	//lock_guard<mutex> lock(m);
+	Utils::WaitForXMillisecondsMaximum(1000);
 
 	//If the content exceed buffer's capacity, we empty it in a file
 	if (IsAboutToBeFull(_content)) EmptyBufferInFile(PATH_SAVELOG);
@@ -115,6 +113,7 @@ inline void Buffer<BufferedType>::EmptyBufferInFile(const char* _path)
 template<class BufferedType>
 inline void Buffer<BufferedType>::CleanBuffer()
 {
+	if (mBuffer) free(mBuffer);
 	mBuffer = (BufferedType*)malloc(sizeof(BufferedType) * mMaxSizeBuffer);
 	mCurrentSizeBuffer = 0;
 }
