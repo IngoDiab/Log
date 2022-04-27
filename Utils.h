@@ -20,7 +20,7 @@ public:
 	Utils() = delete;
 
 public:
-	static void LogText(const unsigned int& _indexThread, const char* _text, const char* _formatDate = "%i/%i/%i", const char* _formatTime = "%i:%i:%i");
+	static void LogText(const unsigned int& _indexThread, const char* _text, const char* _formatDate = "%i/%i/%i", const char* _formatTime = "%i:%i:%i", const char* _formatResult = "%s | %s ==> %s _%i\n");
 
 	static void GetCurrentDate(char* _bufferOut, const unsigned int _sizeBuffer, const char* _formatDate = "%i/%i/%i");
 	static void GetCurrentDate(const tm& _timeStruct, char* _bufferOut, const unsigned int _sizeBuffer, const char* _formatDate = "%i/%i/%i");

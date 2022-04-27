@@ -74,7 +74,7 @@ template<class BufferedType>
 inline void Buffer<BufferedType>::DisplayBufferContent() const
 {
 	if (IsBufferEmpty())return;
-	cout << mBuffer << endl;
+	cout << mBuffer;
 }
 
 template<class BufferedType>
@@ -86,7 +86,7 @@ inline void Buffer<BufferedType>::GetCurrentSizeFill() const
 template<class BufferedType>
 inline void Buffer<BufferedType>::WriteInBuffer(const char* _content)
 {
-	Utils::WaitForXMillisecondsMaximum(1000);
+	//Utils::WaitForXMillisecondsMaximum(1000);
 
 	//If the content exceed buffer's capacity, we empty it in a file
 	if (IsAboutToBeFull(_content)) EmptyBufferInFile(PATH_SAVELOG);

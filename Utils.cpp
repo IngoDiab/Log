@@ -11,14 +11,14 @@ using namespace std;
 shared_ptr<Buffer<char>> Utils::mBuffer(new Buffer<char>(SIZE_BUFFER));
 mutex Utils::mMutex;
 
-void Utils::LogText(const unsigned int& _indexThread, const char* _text, const char* _formatDate, const char* _formatTime)
+void Utils::LogText(const unsigned int& _indexThread, const char* _text, const char* _formatDate, const char* _formatTime, const char* _formatResult)
 {
 	lock_guard<mutex> lock(mMutex);
 
 	//Get time struct
 	tm _timeStruct = GetTimeStruct();
-	const unsigned int _sizeOutBufferDate = 10; //10 format
-	const unsigned int _sizeOutBufferTime = 10; //10 format
+	const unsigned int _sizeOutBufferDate = strlen(_formatDate) + 2; //10 format
+	const unsigned int _sizeOutBufferTime = strlen(_formatTime) + 1; //10 format
 
 	//Allocate space needed in heap
 	char* _bufferDate = (char*) malloc(_sizeOutBufferDate);
@@ -30,10 +30,12 @@ void Utils::LogText(const unsigned int& _indexThread, const char* _text, const c
 	//Buffers have string content + end string char
 
 	//Fill result
-	const unsigned int _resultSize = strlen(_bufferDate) + strlen(_bufferTime) + strlen(_text) + 17; //nb char buffer Date + nb char buffer Time + nb char buffer _text + (10 = 9 format + 1 end char)
+	const unsigned int _resultSize = strlen(_bufferDate) + strlen(_bufferTime) + strlen(_text) + strlen(_formatResult); //nb char buffer Date + nb char buffer Time + nb char buffer _text + (10 = 9 format + 1 end char)
 	char* _resultBuffer = (char*) malloc(_resultSize);
-	sprintf_s(_resultBuffer, _resultSize, "%s | %s ==> %s _%i\n", _bufferDate, _bufferTime, _text, _indexThread);
+	sprintf_s(_resultBuffer, _resultSize, _formatResult, _bufferDate, _bufferTime, _text, _indexThread);
 	//Result buffer has string content + \n + end string char (but there's no more end char after date/time)
+
+	//WaitForXMilliseconds(100);
 
 	//Display log
 	cout << _resultBuffer;
@@ -45,6 +47,7 @@ void Utils::LogText(const unsigned int& _indexThread, const char* _text, const c
 	free(_bufferDate);
 	free(_bufferTime);
 	free(_resultBuffer);
+	//lock.unlock();
 }
 
 void Utils::GetCurrentDate(char* _bufferOut, const unsigned int _sizeBuffer, const char* _formatDate)
