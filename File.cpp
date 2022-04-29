@@ -1,6 +1,8 @@
 #include "File.h"
 #include <direct.h>
 
+mutex File::mMutex;
+
 bool File::OpenFile(ofstream& _outputFile, const char* _path, const bool& _replaceCurrentContent)
 {
 	_replaceCurrentContent ? _outputFile.open(_path) : _outputFile.open(_path, ios::app);
@@ -23,8 +25,11 @@ void File::WriteInFile(const char* _path, const char* _content, const bool& _rep
 	//char* _contentToPasteInFile = (char*)malloc(_sizeCopy);
 	//strncpy_s(_contentToPasteInFile, _sizeCopy, _content, strlen(_content) - 1);
 
-	//Paste content in file
-	_file << _content;
+	{
+		lock_guard<mutex> lock(mMutex);
+		//Paste content in file
+		_file << _content;
+	}
 
 	//Free close file
 	File::CloseFile(_file);

@@ -9,6 +9,7 @@
 template <class BufferedType>
 class Buffer
 {
+	mutex mMutex;
 	BufferedType* mBuffer = nullptr;
 	unsigned int mMaxSizeBuffer = 1024;
 	unsigned int mCurrentSizeBuffer = 0;
@@ -73,8 +74,11 @@ inline bool Buffer<BufferedType>::ExceedBuffer(const char* _content) const
 template<class BufferedType>
 inline void Buffer<BufferedType>::DisplayBufferContent() const
 {
-	if (IsBufferEmpty())return;
-	cout << mBuffer;
+	{
+		lock_guard<mutex> lock(mMutex);
+		if (IsBufferEmpty())return;
+		cout << mBuffer;
+	}
 }
 
 template<class BufferedType>

@@ -1,11 +1,14 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <mutex>
 
 using namespace std;
 
 class File
 {
+	static mutex mMutex;
+
 public:
 	File() = delete;
 
